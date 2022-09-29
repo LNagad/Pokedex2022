@@ -1,0 +1,64 @@
+﻿@model Application.ViewModels.Pokemon.SavePokemonViewModel
+@{
+    bool editMode = Model.Id != 0 ? true : false;
+}
+
+<main class="container-fluid d-flex justify-content-center">
+    <div class="col-10 d-flex align-items-center flex-column">
+        <div class="card col-6">
+            <div class="card-header bg-dark text-center">
+                <h3 class="text-white">@(editMode ? $"Editando Pokemon: {Model.Name}" : "Creando nuevo Pokemon")</h3>
+            </div>
+            <div class="card-body">
+                <form method="post" asp-controller="Pokemones" asp-action="@(editMode ? "Edit": "Create")">
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label">Nombre pokemon</label>
+                        <input asp-for="Name"  class="form-control" id="" placeholder="Ej: Pikachu..">
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                      <div class="mb-3">
+                        <label asp-for="ImageUrl" class="form-label">Url imagen</label>
+                        <input asp-for="ImageUrl"  class="form-control">
+                        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="RegionId" class="form-label">Region</label>
+                        <select asp-for="RegionId" asp-items="@(new SelectList(Model.Regions, "Id", "Name"))" class="form-select">
+                            <option value="0">Selecciona una opcion</option>
+                        </select>
+                        <span asp-validation-for="RegionId" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="PrimaryTypeId" class="form-label">Tipo primario</label>
+                        <select asp-for="PrimaryTypeId" asp-items="@(new SelectList(Model.PokemonTypes, "Id", "Name"))" class="form-select">
+                            <option value="0">Selecciona una opcion</option>
+                        </select>
+                        <span asp-validation-for="PrimaryTypeId" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="SecundaryTypeId" class="form-label">Tipo Secundario</label>
+                        <select asp-for="SecundaryTypeId" asp-items="@(new SelectList(Model.PokemonTypes, "Id", "Name"))" class="form-select">
+                            <option value="">Selecciona una opcion</option>
+                        </select>
+                        <span asp-validation-for="SecundaryTypeId" class="text-danger"></span>
+                    </div>
+
+                    <input type="hidden" asp-for="Id" />
+
+                    <div class="w-100 btn-group d-flex justify-content-between">
+                        <div class="d-flex justify-content-start" style="width: 40%;">
+                            <button asp-controller="Pokemones" asp-action="Index" class="btn btn-secondary">Volver a atras</button>
+                        </div>
+                        <div class="d-flex justify-content-end" style="width: 40%;">
+                            <button type="submit" class="btn btn-success">Guardar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>

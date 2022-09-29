@@ -1,0 +1,34 @@
+﻿@model Application.ViewModels.Region.SaveRegionViewModel
+@{
+    bool editMode = Model.Id != 0 ? true : false;
+}
+
+<main class="container-fluid d-flex justify-content-center">
+    <div class="col-10 d-flex align-items-center flex-column">
+        <div class="card col-6">
+            <div class="card-header bg-dark text-center">
+                <h3 class="text-white">@(editMode ? $"Editando region: {Model.Name}" : "Creando nueva region")</h3>
+            </div>
+            <div class="card-body">
+                <form method="post" asp-controller="Regiones" asp-action="@(editMode ? "Edit": "Create")">
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label">Nombre region</label>
+                        <input asp-for="Name"  class="form-control" id="" placeholder="Ej: Kanto..">
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <input type="hidden" asp-for="Id" />
+
+                    <div class="w-100 btn-group d-flex justify-content-between">
+                        <div class="d-flex justify-content-start" style="width: 40%;">
+                            <button asp-controller="Regiones" asp-action="Index" class="btn btn-secondary">Volver a atras</button>
+                        </div>
+                        <div class="d-flex justify-content-end" style="width: 40%;">
+                            <button type="submit" class="btn btn-success">Guardar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>

@@ -1,2 +1,27 @@
-﻿@{
+﻿@model List<Application.ViewModels.Region.RegionViewModel>
+@{
 }
+
+<main class="container-fluid d-flex justify-content-center">
+    <div class="col-11">
+        <div class="mb-5 d-flex justify-content-end">
+            <a class="btn btn-outline-success" asp-controller="Regiones" asp-action="Create">Crear nueva region</a>
+        </div>
+        <div class="container-fluid d-flex justify-content-evenly flex-wrap">
+            @foreach (var item in Model)
+            {
+                <div class="card me-1 mb-3">
+                    <div class="card-header">
+                        <h5>@item.Name</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-group d-flex justify-content-between">
+                            <a class="btn btn-info w-100 types-a-size" asp-controller="Regiones" asp-action="Edit" asp-route-id="@item.Id">Editar</a>
+                            <a class="btn btn-danger mt-1 w-100 types-a-size" asp-controller="Regiones" asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</main>
