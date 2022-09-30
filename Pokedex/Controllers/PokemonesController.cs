@@ -46,5 +46,47 @@ namespace Pokedex.Controllers
 
             return RedirectToRoute(new { controller = "Pokemones", action = "Index" });
         }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var vm = await _pokemonService.GetPokemonById(id);
+            vm.PokemonTypes = await _pokemonTypeService.GetAllPokemonTypes();
+            vm.Regions = await _regionService.GetAllRegions();
+
+            return View("SavePokemon", vm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditPost(SavePokemonViewModel vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                vm.PokemonTypes = await _pokemonTypeService.GetAllPokemonTypes();
+                vm.Regions = await _regionService.GetAllRegions();
+                return View("SavePokemon", vm);
+            }
+
+            await _pokemonService.UpdateAsync(vm);
+
+            return RedirectToRoute(new { controller = "Pokemones", action = "Index" });
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var vm = await _pokemonService.GetPokemonById(id);
+            //vm.PokemonTypes = await _pokemonTypeService.GetAllPokemonTypes();
+            //vm.Regions = await _regionService.GetAllRegions();
+
+            return View("Delete", vm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeletePost(SavePokemonViewModel vm)
+        {
+
+            await _pokemonService.DeleteAsync(vm.Id);
+
+            return RedirectToRoute(new { controller = "Pokemones", action = "Index" });
+        }
     }
 }

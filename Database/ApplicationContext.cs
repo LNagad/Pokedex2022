@@ -48,7 +48,7 @@ namespace Database
              .HasMany<Pokemon>(p => p.SecundaryType)
              .WithOne(p => p.SecundaryType)
              .HasForeignKey(pokemon => pokemon.SecundaryTypeId)
-             .OnDelete(DeleteBehavior.NoAction);
+             .OnDelete(DeleteBehavior.Cascade);
             #endregion
 
             #region "Properties"

@@ -112,7 +112,7 @@ namespace Database.Migrations
                     b.HasOne("Database.Models.PokemonType", "SecundaryType")
                         .WithMany("SecundaryType")
                         .HasForeignKey("SecundaryTypeId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("PrimaryType");
 

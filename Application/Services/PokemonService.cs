@@ -39,7 +39,7 @@ namespace Application.Services
             }).ToList();
         }
 
-        public async Task<SavePokemonViewModel> GetRegionById(int id)
+        public async Task<SavePokemonViewModel> GetPokemonById(int id)
         {
             var result = await _pokemonRepository.GetByIdAsync(id);
 
@@ -49,7 +49,7 @@ namespace Application.Services
             item.ImageUrl = result.ImageUrl;
             item.RegionId = result.RegionId;
             item.PrimaryTypeId = result.PrimaryTypeId;
-            item.SecundaryTypeId = result.SecundaryTypeId;
+            item.SecundaryTypeId = result.SecundaryTypeId == null ? 0 : result.SecundaryTypeId;
 
             return item;
         }
@@ -67,24 +67,28 @@ namespace Application.Services
             await _pokemonRepository.AddAsync(item);
         }
 
-        //public async Task UpdateAsync(SaveRegionViewModel vm)
-        //{
-        //    var pokemonType = new Region()
-        //    {
-        //        Id = vm.Id,
-        //        Name = vm.Name
-        //    };
+        public async Task UpdateAsync(SavePokemonViewModel vm)
+        {
+            var pokemon = new Pokemon()
+            {
+                Id = vm.Id,
+                Name = vm.Name,
+                ImageUrl = vm.ImageUrl,
+                RegionId = vm.RegionId,
+                PrimaryTypeId = vm.PrimaryTypeId,
+                SecundaryTypeId = vm.SecundaryTypeId
+            };
 
-        //    await _regionRepository.UpdateAsync(pokemonType);
-        //}
+            await _pokemonRepository.UpdateAsync(pokemon);
+        }
 
-        //public async Task DeleteAsync(int id)
-        //{
-        //    Region item = await _regionRepository.GetByIdAsync(id);
+        public async Task DeleteAsync(int id)
+        {
+            Pokemon item = await _pokemonRepository.GetByIdAsync(id);
 
-        //    await _regionRepository.DeleteAsync(item);
+            await _pokemonRepository.DeleteAsync(item);
 
-        //}
+        }
 
     }
 }

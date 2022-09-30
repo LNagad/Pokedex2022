@@ -10,7 +10,7 @@
                 <h3 class="text-white">@(editMode ? $"Editando Pokemon: {Model.Name}" : "Creando nuevo Pokemon")</h3>
             </div>
             <div class="card-body">
-                <form method="post" asp-controller="Pokemones" asp-action="@(editMode ? "Edit": "Create")">
+                <form method="post" asp-controller="Pokemones" asp-action="@(editMode ? "EditPost": "Create")">
                     <div class="mb-3">
                         <label asp-for="Name" class="form-label">Nombre pokemon</label>
                         <input asp-for="Name"  class="form-control" id="" placeholder="Ej: Pikachu..">
