@@ -41,8 +41,7 @@ body {
 }
 .pokemon-img {
     z-index: 1000;
-    top: -25px;
-    width: 160px;
+    width: 140px;
     position: absolute;
 }
 .tipo-base {

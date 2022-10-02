@@ -1,8 +1,79 @@
-﻿@{
+﻿@using Application.ViewModels.Pokemon
+@using Application.ViewModels.Region
+@model List<Application.ViewModels.Pokemon.PokemonViewModel>
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<main class="d-flex justify-content-between">
+    <div class="col-2 ms-4" style="margin-top: 5.5rem;">
+        <div class="card shadow-sm">
+            <div class="card-header text-light" style="background-color: #2c4592;">
+                <h4>Filtros</h4>
+            </div>
+            <div class="card-body">
+                <h4 class="card-title">Regiones</h4>
+                <form method="post" asp-controller="Home" asp-action="Index">
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" value="null" type="radio" name="RegionId" id="Region-all" />
+                            <label class="form-check-label" for="Region-all">Todas</label>
+                        </div>
+                    </div>
+                    @foreach (RegionViewModel region in ViewBag.regions)
+                    {
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" value="@region.Id" type="radio" name="RegionId" id="Region-@region.Id" />
+                                <label class="form-check-label" for="Region-@region.Id">@region.Name</label>
+                            </div>
+                        </div>
+                    }
+                    <button class="btn text-white" type="submit" style="background-color: #eeba0c;">Filtrar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <main class="container-fluid d-flex justify-content-center" style="width: 75%; margin-top: 90px;">
+        <div class="w-100">
+
+            <div class="container-fluid d-flex justify-content-evenly flex-wrap">
+                @foreach (var item in Model)
+                {
+                    <div class="card me-1 mb-3 w-25" style="height: 220px !important;">
+                        <div class="card-header card-header-pokemon" style="padding: 0 !important">
+                            <img class="pokemon-img" src="@item.ImageUrl">
+                        </div>
+                        <div class="card-body card-body-pokemon">
+                            <h5 class="pokemon-name">@item.Name</h5>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="text-white" style="font-size: 10px;">Tipo:</h5>
+                                <div class="d-flex justify-content-between mt-1" style="width: 80%;">
+                                    @if (item.SecundaryType == null || item.SecundaryType == "")
+                                    {
+                                        <div class="w-100 d-flex justify-content-center"><h6 class="tipo-base" id="tipo-primario">@item.PrimaryType</h6></div>
+                                    }
+                                    else
+                                    {
+                                        <h6 class="tipo-base" id="tipo-primario">@item.PrimaryType</h6>
+                                        <h6 class="tipo-base" id="tipo-secundario">@item.SecundaryType</h6>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </main>
+    <div class="col-2 me-5">
+        <form method="post" asp-controller="Home" asp-action="Index">
+            <div class="d-flex">
+                <button type="submit" style="background-color: #F0F0F0; border-radius: 20px 0px 0 20px; outline:0; border:0"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <input type="text" name="PokemonName" value="@ViewBag.pokemonName" autocomplete="off"
+                    class="form-control border-0" placeholder="Busca un pokemon..." 
+                style="background-color: #F0F0F0; border-radius: 0px 20px 20px 0px; padding: 5px 2px">
+            </div>
+        </form>
+    </div>
+</main>

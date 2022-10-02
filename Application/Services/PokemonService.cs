@@ -34,10 +34,43 @@ namespace Application.Services
                 ImageUrl = p.ImageUrl,
                 Region = p.Region.Name,
                 PrimaryType = p.PrimaryType.Name,
-                SecundaryType = p.SecundaryType == null ? "" : p.SecundaryType.Name
-
+                SecundaryType = p.SecundaryType == null ? "" : p.SecundaryType.Name,
+                RegionId = p.RegionId
             }).ToList();
         }
+
+        public async Task<List<PokemonViewModel>> GetAllPokemonWithFilters(FilterPokemonViewModel filters)
+        {
+            var properties = new List<string> { "Region", "PrimaryType", "SecundaryType" };
+
+            var item = await _pokemonRepository.GetAllWithIncludeAsync(properties);
+
+            var itemList = item.Select(p => new PokemonViewModel
+            {
+                Id = p.Id,
+                Name = p.Name,
+                ImageUrl = p.ImageUrl,
+                Region = p.Region.Name,
+                PrimaryType = p.PrimaryType.Name,
+                SecundaryType = p.SecundaryType == null ? "" : p.SecundaryType.Name,
+                RegionId = p.RegionId,
+
+            }).ToList();
+
+            if (filters.RegionId != null)
+            {
+                itemList = itemList.Where(pokemon => pokemon.RegionId == filters.RegionId.Value).ToList();
+            }
+
+            if (filters.PokemonName != null)
+            {
+                itemList = itemList.Where(p => p.Name.ToLower()
+                .Contains(filters.PokemonName.ToLower())).ToList();
+            }
+
+            return itemList;
+        }
+
 
         public async Task<SavePokemonViewModel> GetPokemonById(int id)
         {

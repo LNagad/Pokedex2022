@@ -14,7 +14,10 @@ namespace Application.ViewModels.Pokemon
 
         
         public string Region { get; set; }
+        public int? RegionId { get; set; }
         public string PrimaryType { get; set; }
         public string SecundaryType { get; set; }
+
+
     }
 }
